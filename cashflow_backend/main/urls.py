@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import main, expenditure, reminders, categories
+from .views import main, expenditure, reminders, categories, goals
 
 ## rest imports
 from rest_framework_simplejwt.views import (
@@ -24,4 +24,8 @@ urlpatterns = [
     # reminders
     path("get-reminders/", reminders.get_reminders, name="get_reminders"),
     path("add-reminder/", reminders.add_reminder, name="add_reminder"),
+    
+    # goals
+    path("get-goals/", goals.get_goals, name="get_goals"),
+    path("add-goal/", goals.add_goal, name="add_goal"),
 ]
