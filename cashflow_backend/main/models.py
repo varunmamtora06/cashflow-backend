@@ -36,12 +36,12 @@ from django.contrib.auth.models import User
 # - by_user
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=200, unique=True)
+    category_name = models.CharField(max_length=200)
     category_used_count = models.IntegerField()
     by_user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.category_name} by {self.user.username}"
+        return f"{self.category_name} by {self.by_user.username}"
 
 class Expenditure(models.Model):
     expenditure_title = models.CharField(max_length=200)
