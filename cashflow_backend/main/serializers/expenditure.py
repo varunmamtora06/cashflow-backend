@@ -3,16 +3,14 @@ from django.contrib.auth.models import User
 
 from ..models import Expenditure, Category
 
+from .categories import CategorySerializer
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = "__all__"
 
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = "__all__"
 
 class ExpenditureSerializer(serializers.ModelSerializer):
     belongs_to_category = CategorySerializer(many=False)
