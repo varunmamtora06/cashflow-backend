@@ -2,7 +2,7 @@ from .models import Category
 
 def category_exists(user, category_name):
     try:
-        Category.objects.get(by_user=user, category_name=category_name)
-        return True
+        category = Category.objects.get(by_user=user, category_name=category_name)
+        return True, category
     except Category.DoesNotExist:
-        return False
+        return False, None
