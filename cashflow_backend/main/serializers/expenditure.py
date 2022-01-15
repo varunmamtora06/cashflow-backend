@@ -1,0 +1,22 @@
+from rest_framework import serializers, exceptions
+from django.contrib.auth.models import User
+
+from ..models import Expenditure, Category
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = "__all__"
+
+class ExpenditureSerializer(serializers.ModelSerializer):
+    belongs_to_category = CategorySerializer(many=False)
+    by_user = UserSerializer(many=False)
+    class Meta:
+        model = Expenditure
+        fields = ["expenditure_title", "expenditure_amount", "expenditure_remarks", "expenditure_date", "belongs_to_category", "by_user"]

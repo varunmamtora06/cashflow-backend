@@ -15,4 +15,5 @@ urlpatterns = [
 
     path("main/", main.main, name="main"),
     path("allexpenditures/", expenditure.all_expenditures, name="allexpenditures"),
+    path("get-n-expenditures/<int:exp_count>/", expenditure.get_n_expenditures, name="get_n_expenditures"),
 ]
