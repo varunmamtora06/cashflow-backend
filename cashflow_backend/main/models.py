@@ -60,12 +60,12 @@ def get_receipt_filename(instance, filename):
     return f"ExpenditureReceipts/{username}/{filename}"
 
 class ExpenditureReceipt(models.Model):
-    expenditure_title = models.CharField(max_length=200, null=True, blank=True)
+    extracted_data = models.TextField(null=True, blank=True)
     receipt_pic = models.FileField(upload_to=get_receipt_filename)
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    for_expenditure = models.ForeignKey(Expenditure, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"receipt for {self.expenditure_title}"
+        return f"receipt for {self.for_expenditure.expenditure_title}"
 
 def get_bill_filename(instance, filename):
     username = instance.by_user.username
