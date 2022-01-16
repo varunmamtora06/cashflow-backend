@@ -16,3 +16,12 @@ def get_categories(request):
     category_serializer = CategorySerializer(categories, many=True)
 
     return Response({"categories":category_serializer.data}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_most_used_categories(request):
+    user = get_user(request)
+
+    categories = Category.objects.filter(by_user=user).order_by("-category_used_count")
+    category_serializer = CategorySerializer(categories, many=True)
+
+    return Response({"categories":category_serializer.data}, status=status.HTTP_200_OK)
