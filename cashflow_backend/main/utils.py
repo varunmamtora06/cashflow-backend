@@ -5,6 +5,7 @@ import jwt
 ## import models
 from django.contrib.auth.models import User
 
+from rest_framework_simplejwt.tokens import RefreshToken
 
 def get_user(request):
     token = request.META["HTTP_AUTHORIZATION"].split(" ")[1]
@@ -17,3 +18,12 @@ def get_user(request):
     
     user_id = valid_data['user_id']
     return User.objects.get(id=user_id)
+
+
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
