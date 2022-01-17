@@ -63,6 +63,7 @@ class ExpenditureReceipt(models.Model):
     extracted_data = models.TextField(null=True, blank=True)
     receipt_pic = models.FileField(upload_to=get_receipt_filename)
     for_expenditure = models.ForeignKey(Expenditure, on_delete=models.CASCADE, null=True, blank=True)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"receipt for {self.for_expenditure.expenditure_title}"
