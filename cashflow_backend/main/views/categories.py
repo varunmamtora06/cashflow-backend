@@ -35,8 +35,8 @@ def get_category_count(request):
 
     category_serializer = CategoryCountPieSerializer(category_count, many=True)
 
-    category_labels = [ expanditure["belongs_to_category__category_name"] for expanditure in category_serializer.data ]
-    category_count = [ expanditure["exp_count"] for expanditure in category_serializer.data ]
+    category_labels = [ expenditure["belongs_to_category__category_name"] for expenditure in category_serializer.data ]
+    category_count = [ expenditure["exp_count"] for expenditure in category_serializer.data ]
 
 
 
