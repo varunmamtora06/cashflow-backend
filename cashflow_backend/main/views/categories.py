@@ -2,9 +2,10 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..models import Category
+from django.db.models import Count
+from ..models import Category, Expenditure
 
-from ..serializers.categories import CategorySerializer
+from ..serializers.categories import CategorySerializer, CategoryCountPieSerializer
 
 from ..utils import get_user
 
@@ -25,3 +26,23 @@ def get_most_used_categories(request):
     category_serializer = CategorySerializer(categories, many=True)
 
     return Response({"categories":category_serializer.data}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_category_count(request):
+    user = get_user(request)
+
+    category_count = Expenditure.objects.values('belongs_to_category__category_name').annotate(exp_count=Count('belongs_to_category__category_name'))
+
+    category_serializer = CategoryCountPieSerializer(category_count, many=True)
+
+    category_labels = [ expanditure["belongs_to_category__category_name"] for expanditure in category_serializer.data ]
+    category_count = [ expanditure["exp_count"] for expanditure in category_serializer.data ]
+
+
+
+    category_count_pie = {
+        "labels": category_labels,
+        "count": category_count
+    }
+
+    return Response({"category_count_pie":category_count_pie}, status=status.HTTP_200_OK)

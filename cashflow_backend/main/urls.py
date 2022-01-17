@@ -22,6 +22,7 @@ urlpatterns = [
     # categories
     path("get-categories/", categories.get_categories, name="get_categories"),
     path("get-most-used-categories/", categories.get_most_used_categories, name="get_most_used_categories"),
+    path("get-category-count/", categories.get_category_count, name="get_category_count"),
     
     # reminders
     path("get-reminders/", reminders.get_reminders, name="get_reminders"),
