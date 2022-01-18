@@ -1,8 +1,12 @@
-from sympy import im
-import cashflow_complete
+from .cashflow_complete import *
 import cv2
 
 def extract_data(img_path):
-    img = cv2.imread(img_path)
+    img = cv2.imread(f"../cashflow_backend/{img_path}")
 
-    d = cashflow_complete.predictIMG(img)
+    d = predictIMG(img)
+
+    print("data")
+    print(d)
+
+    return d
