@@ -13,6 +13,9 @@ from ..helpers import category_exists
 
 from decimal import Decimal
 
+## importing OCR
+from ..ocr_detect import extract_data
+
 @api_view(['GET'])
 def all_expenditures(request):
     user = get_user(request)
@@ -70,6 +73,9 @@ def update_expenditure(request, expenditure_id):
 
     return Response({"MSSG":"EXPENDITURE_UPDATED"}, status=status.HTTP_200_OK)
 
+
+import json
+
 @csrf_exempt
 def detect_expenditure(request):
     user = get_user(request)
@@ -82,5 +88,7 @@ def detect_expenditure(request):
     # print(exp_pic_file)
     # print(exp_pic_file.receipt_pic.name)
     # print(exp_pic_file.receipt_pic.url)
+
+    d = extract_data(exp_pic_file.receipt_pic.url)
     
-    return JsonResponse({"MSSG":"Okay"})
+    return JsonResponse({"MSSG":"Okay", "model_extr_data":d})
