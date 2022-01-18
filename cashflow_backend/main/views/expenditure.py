@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
@@ -82,4 +83,4 @@ def detect_expenditure(request):
     # print(exp_pic_file.receipt_pic.name)
     # print(exp_pic_file.receipt_pic.url)
     
-    return Response({"MSSG":"Okay"}, status=status.HTTP_200_OK)
+    return JsonResponse({"MSSG":"Okay"})
