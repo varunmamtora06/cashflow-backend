@@ -66,7 +66,10 @@ class ExpenditureReceipt(models.Model):
     by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
-        return f"receipt for {self.for_expenditure.expenditure_title}"
+        if self.for_expenditure:
+            return f"receipt for {self.for_expenditure.expenditure_title}"
+        else:
+            return f"receipt for {self.by_user.username}"
 
 def get_bill_filename(instance, filename):
     username = instance.by_user.username
