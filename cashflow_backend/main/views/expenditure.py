@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.csrf import csrf_exempt
 
+from django.db.models import Count
 from ..models import Expenditure, Category, ExpenditureReceipt
 
-from ..serializers.expenditure import ExpenditureSerializer, CategorySerializer
+from ..serializers.expenditure import ExpenditureSerializer, CategorySerializer, ExpenditureHeatmapSerializer
 
 from ..utils import get_user
 from ..helpers import category_exists
@@ -92,3 +93,12 @@ def detect_expenditure(request):
     d = extract_data(exp_pic_file.receipt_pic.url)
     
     return JsonResponse({"MSSG":"Okay", "model_extr_data":d})
+
+@api_view(["GET"])
+def expenditure_heatmap(request):
+    user = get_user(request)
+
+    expenditures = Expenditure.objects.filter(by_user=user).values("expenditure_date").annotate(exp_count=Count("expenditure_date")).order_by("-.exp_count")
+    expenditure_serializer = ExpenditureHeatmapSerializer(expenditures, many=True)
+
+    return Response({"heatmap":expenditure_serializer.data})

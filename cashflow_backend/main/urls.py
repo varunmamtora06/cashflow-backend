@@ -21,6 +21,7 @@ urlpatterns = [
     path("add-expenditure/", expenditure.add_expenditure, name="add_expenditure"),
     path("update-expenditure/<int:expenditure_id>", expenditure.update_expenditure, name="update_expenditure"),
     path("detect-expenditure/", expenditure.detect_expenditure, name="detect_expenditure"),
+    path("expenditure-heatmap/", expenditure.expenditure_heatmap, name="expenditure_heatmap"),
 
     # categories
     path("get-categories/", categories.get_categories, name="get_categories"),

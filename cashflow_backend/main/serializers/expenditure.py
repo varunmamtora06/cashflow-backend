@@ -18,3 +18,7 @@ class ExpenditureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expenditure
         fields = ["id", "expenditure_title", "expenditure_amount", "expenditure_remarks", "expenditure_date", "belongs_to_category", "by_user"]
+
+class ExpenditureHeatmapSerializer(serializers.Serializer):
+    expenditure_date = serializers.CharField()
+    exp_count = serializers.IntegerField()
