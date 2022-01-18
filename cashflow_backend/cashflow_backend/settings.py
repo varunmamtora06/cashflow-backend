@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,7 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-xcil)gd)4+5a2-4x$m%ba3*9r51g7u8-x707&yett6rne7w!=i'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ENV_DEBUG = config('ENV_DEBUG')
+
+if ENV_DEBUG == "True":
+    print("yes deb")
+    DEBUG = True
+else:
+    print("no deb")
+    DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -84,12 +92,27 @@ WSGI_APPLICATION = 'cashflow_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if ENV_DEBUG == "True":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'dbv8nhnr4usmnu',
+        'HOST': 'ec2-34-230-198-12.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'jmjhdaerrinrvz',
+        'PASSWORD': '1f361961981ad91801a90b931148dbb053a796b19703a0a7b40ad0f52df58f20'
+
+        }
+    }
+    
+
 
 
 # Password validation
