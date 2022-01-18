@@ -73,7 +73,7 @@ def update_expenditure(request, expenditure_id):
 def detect_expenditure(request):
     user = get_user(request)
 
-   
+    exp_pic = request.FILES["exp_pic"]
     print(request.FILES["exp_pic"])
 
     exp_pic_file = ExpenditureReceipt.objects.create(receipt_pic=exp_pic, by_user=user)
