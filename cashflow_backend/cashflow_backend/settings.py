@@ -27,12 +27,7 @@ SECRET_KEY = 'django-insecure-xcil)gd)4+5a2-4x$m%ba3*9r51g7u8-x707&yett6rne7w!=i
 # SECURITY WARNING: don't run with debug turned on in production!
 ENV_DEBUG = config('ENV_DEBUG')
 
-if ENV_DEBUG == "True":
-    print("yes deb")
-    DEBUG = True
-else:
-    print("no deb")
-    DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
