@@ -70,7 +70,6 @@ def update_expenditure(request, expenditure_id):
     return Response({"MSSG":"EXPENDITURE_UPDATED"}, status=status.HTTP_200_OK)
 
 @csrf_exempt
-@api_view(["POST"])
 def detect_expenditure(request):
     user = get_user(request)
 
