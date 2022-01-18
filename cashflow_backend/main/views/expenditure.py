@@ -70,11 +70,11 @@ def update_expenditure(request, expenditure_id):
 
 @api_view(["POST"])
 def detect_expenditure(request):
-    # user = get_user(request)
+    user = get_user(request)
 
-    # exp_pic = request.FILES["exp_pic"]
+    exp_pic = request.FILES["exp_pic"]
 
-    # exp_pic_file = ExpenditureReceipt.objects.create(receipt_pic=exp_pic, by_user=user)
+    exp_pic_file = ExpenditureReceipt.objects.create(receipt_pic=exp_pic, by_user=user)
 
     # print(exp_pic_file)
     # print(exp_pic_file.receipt_pic.name)
