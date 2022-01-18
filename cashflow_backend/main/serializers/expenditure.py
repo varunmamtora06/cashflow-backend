@@ -17,4 +17,4 @@ class ExpenditureSerializer(serializers.ModelSerializer):
     by_user = UserSerializer(many=False)
     class Meta:
         model = Expenditure
-        fields = ["expenditure_title", "expenditure_amount", "expenditure_remarks", "expenditure_date", "belongs_to_category", "by_user"]
+        fields = ["id", "expenditure_title", "expenditure_amount", "expenditure_remarks", "expenditure_date", "belongs_to_category", "by_user"]

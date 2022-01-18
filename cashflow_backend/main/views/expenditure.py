@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 
-from ..models import Expenditure, Category
+from ..models import Expenditure, Category, ExpenditureReceipt
 
 from ..serializers.expenditure import ExpenditureSerializer, CategorySerializer
 
@@ -52,3 +52,32 @@ def add_expenditure(request):
             return Response({"MSSG":"TRANSACTION_ADDED"}, status=status.HTTP_200_OK)
     except:
         return Response({"MSSG":"FAILED_TO_ADD_TRANSACTION"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(["PUT"])
+def update_expenditure(request, expenditure_id):
+    user = get_user(request)
+
+    expenditure = Expenditure.objects.get(id=expenditure_id)
+
+    expenditure.expenditure_title = request.data["expenditure_title"]
+    expenditure.expenditure_amount = round(Decimal(request.data["expenditure_amount"]), 2)
+    expenditure.expenditure_remarks = request.data["expenditure_remarks"]
+    expenditure.expenditure_date = request.data["expenditure_date"]
+
+    expenditure.save()
+
+    return Response({"MSSG":"EXPENDITURE_UPDATED"}, status=status.HTTP_200_OK)
+
+@api_view(["POST"])
+def detect_expenditure(request):
+    # user = get_user(request)
+
+    # exp_pic = request.FILES["exp_pic"]
+
+    # exp_pic_file = ExpenditureReceipt.objects.create(receipt_pic=exp_pic, by_user=user)
+
+    # print(exp_pic_file)
+    # print(exp_pic_file.receipt_pic.name)
+    # print(exp_pic_file.receipt_pic.url)
+    
+    return Response({"MSSG":"Okay"}, status=status.HTTP_200_OK)
