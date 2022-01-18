@@ -102,7 +102,7 @@ if ENV_DEBUG == "True":
 else:
     DATABASES = {
         'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbv8nhnr4usmnu',
         'HOST': 'ec2-34-230-198-12.compute-1.amazonaws.com',
         'PORT': 5432,
