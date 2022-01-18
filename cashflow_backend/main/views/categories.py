@@ -31,7 +31,7 @@ def get_most_used_categories(request):
 def get_category_count(request):
     user = get_user(request)
 
-    category_count = Expenditure.objects.values('belongs_to_category__category_name').annotate(exp_count=Count('belongs_to_category__category_name'))
+    category_count = Expenditure.objects.filter(by_user=user).values('belongs_to_category__category_name').annotate(exp_count=Count('belongs_to_category__category_name'))
 
     category_serializer = CategoryCountPieSerializer(category_count, many=True)
 
