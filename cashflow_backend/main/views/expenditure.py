@@ -1,6 +1,7 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.views.decorators.csrf import csrf_exempt
 
 from ..models import Expenditure, Category, ExpenditureReceipt
 
@@ -68,11 +69,13 @@ def update_expenditure(request, expenditure_id):
 
     return Response({"MSSG":"EXPENDITURE_UPDATED"}, status=status.HTTP_200_OK)
 
+@csrf_exempt
 @api_view(["POST"])
 def detect_expenditure(request):
     user = get_user(request)
 
-    exp_pic = request.FILES["exp_pic"]
+   
+    print(request.FILES["exp_pic"])
 
     exp_pic_file = ExpenditureReceipt.objects.create(receipt_pic=exp_pic, by_user=user)
 
