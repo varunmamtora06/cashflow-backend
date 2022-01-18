@@ -31,6 +31,7 @@ urlpatterns = [
     # reminders
     path("get-reminders/", reminders.get_reminders, name="get_reminders"),
     path("add-reminder/", reminders.add_reminder, name="add_reminder"),
+    path("complete-reminder/<int:reminder_id>/", reminders.complete_reminder, name="complete_reminder"),
     
     # goals
     path("get-goals/", goals.get_goals, name="get_goals"),

@@ -35,3 +35,11 @@ def add_reminder(request):
     except:
         return Response({"MSSG": "FAILED_TO_SET"}, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET'])
+def complete_reminder(request, reminder_id):
+
+    reminder = Reminder.objects.get(id=reminder_id)
+    reminder.is_completed = True
+    reminder.save()
+
+    return Response({"MSSG": "MARKED_COMPLETE"}, status=status.HTTP_200_OK)
