@@ -81,6 +81,7 @@ class Reminder(models.Model):
     reminder_desc = models.TextField(blank=True, null=True)
     reminder_amount = models.DecimalField(max_digits=7, decimal_places=2)
     reminder_due_date = models.DateField()
+    is_completed = models.BooleanField(default=False)
     pic_of_bill = models.FileField(upload_to=get_bill_filename, blank=True)
     by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -94,6 +95,7 @@ class Goal(models.Model):
     saved_amount = models.DecimalField(max_digits=7, decimal_places=2)
     goal_complete_date = models.DateField()
     goal_set_on = models.DateField()
+    is_completed = models.BooleanField(default=False)
     by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
