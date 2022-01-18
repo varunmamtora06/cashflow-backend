@@ -38,7 +38,7 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     category_name = models.CharField(max_length=200)
     category_used_count = models.IntegerField()
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.category_name} by {self.by_user.username}"
@@ -48,8 +48,8 @@ class Expenditure(models.Model):
     expenditure_amount = models.DecimalField(max_digits=7, decimal_places=2)
     expenditure_remarks = models.TextField(blank=True, null=True)
     expenditure_date = models.DateField()
-    belongs_to_category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    belongs_to_category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"{self.expenditure_title} for {self.by_user.username}"
@@ -82,7 +82,7 @@ class Reminder(models.Model):
     reminder_amount = models.DecimalField(max_digits=7, decimal_places=2)
     reminder_due_date = models.DateField()
     pic_of_bill = models.FileField(upload_to=get_bill_filename, blank=True)
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Reminder {self.reminder_title} for {self.by_user.username}"
@@ -94,7 +94,7 @@ class Goal(models.Model):
     saved_amount = models.DecimalField(max_digits=7, decimal_places=2)
     goal_complete_date = models.DateField()
     goal_set_on = models.DateField()
-    by_user = models.ForeignKey(User, on_delete=models.CASCADE)
+    by_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Goal {self.goal_title} for {self.by_user.username}"
