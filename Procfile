@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath cashflow_backend cashflow_backend.wsgi --log-file -
