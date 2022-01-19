@@ -33,6 +33,38 @@ def get_n_expenditures(request, exp_count):
 
     return Response({"expenditures":expenditure_serializer.data}, status=status.HTTP_200_OK)
 
+import datetime
+from time import strptime
+
+def month_chooser(month):
+    months = {
+        "January": 1,
+        "JANUARY": 1,
+        "February": 2,
+        "FEBRUARY": 2,
+        "March": 3,
+        "MARCH":3,
+        "April": 4,
+        "APRIL": 4,
+        "May":5,
+        "MAY":5,
+        "June":6,
+        "JUNE":6,
+        "July":7,
+        "JULY":7,
+        "August":8,
+        "AUGUST":8,
+        "September":9,
+        "SEPTEMBER":9,
+        "October":10,
+        "OCTOBER":10,
+        "November":11,
+        "NOVEMBER":11,
+        "December":12,
+        "DECEMBER":12
+    }
+
+    return months[month]
 
 @api_view(['POST'])
 def add_expenditure(request):
@@ -44,20 +76,49 @@ def add_expenditure(request):
     expenditure_date = request.data["expenditure_date"]
     category_name = request.data["category_name"]
 
-    try:
-        is_exist, category = category_exists(user, category_name)
-        if(is_exist):
-            category.category_used_count += 1
-            category.save()
+    if " " in expenditure_date:
+        date_chunck = expenditure_date.split(" ")
+    if "-" in expenditure_date:
+        date_chunck = expenditure_date.split("-")
+    if "/" in expenditure_date:
+        date_chunck = expenditure_date.split("/")
 
-            Expenditure.objects.create(expenditure_title=expenditure_title, expenditure_amount=expenditure_amount, expenditure_remarks=expenditure_remarks, expenditure_date=expenditure_date, belongs_to_category=category, by_user=user)
-            return Response({"MSSG":"TRANSACTION_ADDED"}, status=status.HTTP_200_OK)
-        else:
-            category = Category.objects.create(category_name=category_name, category_used_count=1, by_user=user)
-            Expenditure.objects.create(expenditure_title=expenditure_title, expenditure_amount=expenditure_amount, expenditure_remarks=expenditure_remarks, expenditure_date=expenditure_date, belongs_to_category=category, by_user=user)
-            return Response({"MSSG":"TRANSACTION_ADDED"}, status=status.HTTP_200_OK)
-    except:
-        return Response({"MSSG":"FAILED_TO_ADD_TRANSACTION"}, status=status.HTTP_400_BAD_REQUEST)
+    print("date_chunckb4")
+    print(date_chunck)
+    if len(date_chunck[1]) == 3:
+        date_chunck[1] = str(strptime(date_chunck[1],'%b').tm_mon)
+        if len(expenditure_date) == 1:
+            date_chunck[1] = "0" + date_chunck[1]
+    if len(date_chunck[1]) > 3:
+        date_chunck[1] = str(month_chooser(date_chunck[1]))
+        if len(expenditure_date) == 1:
+            date_chunck[1] = "0" + date_chunck[1]
+    print("date_chunckafter")
+    print(date_chunck)
+    
+    if len(date_chunck[2]) == 2:
+        date_chunck[2] = "20"+date_chunck[2]
+
+    expenditure_date = date_chunck[0] + "-"+ date_chunck[1] +"-"+ date_chunck[2]
+
+    print(f"beforConv{expenditure_date}")
+    if len(date_chunck[0]) < 3:
+        expenditure_date = datetime.datetime.strptime(expenditure_date, "%d-%m-%Y").strftime("%Y-%m-%d")
+        print(f"aftaConv{expenditure_date}")
+    # try:
+    is_exist, category = category_exists(user, category_name)
+    if(is_exist):
+        category.category_used_count += 1
+        category.save()
+
+        Expenditure.objects.create(expenditure_title=expenditure_title, expenditure_amount=expenditure_amount, expenditure_remarks=expenditure_remarks, expenditure_date=expenditure_date, belongs_to_category=category, by_user=user)
+        return Response({"MSSG":"TRANSACTION_ADDED"}, status=status.HTTP_200_OK)
+    else:
+        category = Category.objects.create(category_name=category_name, category_used_count=1, by_user=user)
+        Expenditure.objects.create(expenditure_title=expenditure_title, expenditure_amount=expenditure_amount, expenditure_remarks=expenditure_remarks, expenditure_date=expenditure_date, belongs_to_category=category, by_user=user)
+        return Response({"MSSG":"TRANSACTION_ADDED"}, status=status.HTTP_200_OK)
+    # except:
+    #     return Response({"MSSG":"FAILED_TO_ADD_TRANSACTION"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(["PUT"])
 def update_expenditure(request, expenditure_id):
