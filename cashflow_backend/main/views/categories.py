@@ -77,4 +77,10 @@ def get_category_by_month(request):
             # else:
             #     chrt[categ_exp["belongs_to_category__category_name"]].append(0)
 
-    return Response({"month_chart":chrt})
+    res = []
+
+    for key, value in chrt.items():
+        res.append({"label":key, "data":value})
+
+    # return Response({"month_chart":chrt})
+    return Response({"month_chart":res})

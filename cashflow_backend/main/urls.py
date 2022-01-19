@@ -37,4 +37,5 @@ urlpatterns = [
     # goals
     path("get-goals/", goals.get_goals, name="get_goals"),
     path("add-goal/", goals.add_goal, name="add_goal"),
+    path("update-goal/<int:goal_id>/", goals.update_goal, name="update_goal"),
 ]
