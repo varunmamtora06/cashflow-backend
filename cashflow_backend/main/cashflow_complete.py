@@ -187,9 +187,9 @@ def predictIMG(img):
             if l == 5:
                 img4 = image.copy()
                 #cv2.rectangle(image,(x-15,y-15),(x+w+10000,y+h+100),(0,255,0),2)
-                img3= cv2.rectangle(img4,(x-5,y+5),(x+w+10000,y+h+100),(0,255,0),2)
+                img3= cv2.rectangle(img4,(x-5,y-5),(x+w+10000,y+h+100),(0,255,0),2)
                 #cv2.putText(image,txt,(x,y),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),2)
-                roi = image[y+5:y+h+100, x-5:x+w+10000]
+                roi = image[y-5:y+h+100, x:x+w+10000]
                 cv2.imwrite("../cashflow_backend/main/test_img/roi"+str(a)+'.jpeg', roi)
             else:
                 continue
@@ -202,12 +202,21 @@ def predictIMG(img):
 
 
     dL = []
+    path = "../cashflow_backend/main/test_img/"
+    files = folders = 0
 
+    for _, dirnames, filenames in os.walk(path):
+    # ^ this idiom means "we won't be using this value"
+        files += len(filenames)
+        folders += len(dirnames)
 
+    # print("{:,} files, {:,} folders".format(files, folders))
+    imgs_in_folder = files
+    # print(imgs_in_folder)
     # In[81]:
 
 
-    for i in range(3):
+    for i in range(imgs_in_folder):
         img = cv2.imread('../cashflow_backend/main/test_img/roi'+str(i)+'.jpeg')
         tessData = pytesseract.image_to_data(img).lower()
     # convert into dataframe
@@ -251,7 +260,10 @@ def predictIMG(img):
 
     # In[85]:
 
-
+    ss_files = glob(f"../cashflow_backend/main/test_img/*")
+    # print(f"ss_fls->{ss_files}")
+    for f in ss_files:
+        os.remove(f)
     return data
 
 
