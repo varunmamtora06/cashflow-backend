@@ -98,7 +98,7 @@ def detect_expenditure(request):
 def expenditure_heatmap(request):
     user = get_user(request)
 
-    expenditures = Expenditure.objects.filter(by_user=user).values("expenditure_date").annotate(exp_count=Count("expenditure_date")).order_by("-.exp_count")
+    expenditures = Expenditure.objects.filter(by_user=user).values("expenditure_date").annotate(exp_count=Count("expenditure_date")).order_by("-exp_count")
     expenditure_serializer = ExpenditureHeatmapSerializer(expenditures, many=True)
 
     return Response({"heatmap":expenditure_serializer.data})
