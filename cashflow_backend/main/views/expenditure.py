@@ -101,4 +101,9 @@ def expenditure_heatmap(request):
     expenditures = Expenditure.objects.filter(by_user=user).values("expenditure_date").annotate(exp_count=Count("expenditure_date")).order_by("-exp_count")
     expenditure_serializer = ExpenditureHeatmapSerializer(expenditures, many=True)
 
-    return Response({"heatmap":expenditure_serializer.data})
+    expenditure_heatmap = []
+
+    for expenditure in expenditures:
+        expenditure_heatmap.append({"date":expenditure["expenditure_date"], "count":expenditure["exp_count"]})
+
+    return Response({"heatmap":expenditure_heatmap})
