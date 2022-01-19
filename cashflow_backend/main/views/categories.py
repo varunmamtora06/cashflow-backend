@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from django.db.models import Count
+from django.db.models import Sum
 from ..models import Category, Expenditure
 
 from ..serializers.categories import CategorySerializer, CategoryCountPieSerializer
@@ -46,3 +47,31 @@ def get_category_count(request):
     }
 
     return Response({"category_count_pie":category_count_pie}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_category_by_month(request):
+    user = get_user(request)
+
+    expenditures = Expenditure.objects.filter(by_user=user)
+
+    categs = []
+
+    for expenditure in expenditures:
+        if not expenditure.belongs_to_category.category_name in categs:
+            categs.append(expenditure.belongs_to_category.category_name)
+
+    print(categs)
+
+    categs_exp_amt = Expenditure.objects.filter(by_user=user).values("belongs_to_category__category_name", "expenditure_date__month").annotate(tot_amt=Sum("expenditure_amount")).order_by("expenditure_date__month")
+    print(categs_exp_amt)
+
+    chrt = {}
+    for categ_exp in categs_exp_amt:
+        chrt[categ_exp["belongs_to_category__category_name"]] = []
+    # for category in categs:
+    for i in range(12):
+        for categ_exp in categs_exp_amt:
+            if i == categ_exp["expenditure_date__month"] - 1:
+                chrt[categ_exp["belongs_to_category__category_name"]].append(categ_exp["tot_amt"])
+
+    return Response({"month_chart":chrt})
