@@ -185,8 +185,9 @@ def predictIMG(img):
 
         elif level == 'word':
             if l == 5:
+                img4 = image.copy()
                 #cv2.rectangle(image,(x-15,y-15),(x+w+10000,y+h+100),(0,255,0),2)
-                img3= cv2.rectangle(image,(x-5,y+5),(x+w+10000,y+h+100),(0,255,0),2)
+                img3= cv2.rectangle(img4,(x-5,y+5),(x+w+10000,y+h+100),(0,255,0),2)
                 #cv2.putText(image,txt,(x,y),cv2.FONT_HERSHEY_PLAIN,1,(255,0,0),2)
                 roi = image[y+5:y+h+100, x-5:x+w+10000]
                 cv2.imwrite("../cashflow_backend/main/test_img/roi"+str(a)+'.jpeg', roi)
