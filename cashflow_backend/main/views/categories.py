@@ -67,11 +67,14 @@ def get_category_by_month(request):
 
     chrt = {}
     for categ_exp in categs_exp_amt:
-        chrt[categ_exp["belongs_to_category__category_name"]] = []
+        chrt[categ_exp["belongs_to_category__category_name"]] = [0,0,0,0,0,0,0,0,0,0,0,0]
     # for category in categs:
     for i in range(12):
         for categ_exp in categs_exp_amt:
             if i == categ_exp["expenditure_date__month"] - 1:
-                chrt[categ_exp["belongs_to_category__category_name"]].append(categ_exp["tot_amt"])
+                # chrt[categ_exp["belongs_to_category__category_name"]].append(categ_exp["tot_amt"])
+                chrt[categ_exp["belongs_to_category__category_name"]][i] = categ_exp["tot_amt"]
+            # else:
+            #     chrt[categ_exp["belongs_to_category__category_name"]].append(0)
 
     return Response({"month_chart":chrt})
