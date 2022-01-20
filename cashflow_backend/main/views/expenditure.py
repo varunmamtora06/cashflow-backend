@@ -71,7 +71,11 @@ def add_expenditure(request):
     user = get_user(request)
 
     expenditure_title = request.data["expenditure_title"]
-    expenditure_amount = round(Decimal(request.data["expenditure_amount"]), 2)
+    try:
+        expenditure_amount = round(Decimal(request.data["expenditure_amount"]), 2)
+    except:
+        print("except")
+        expenditure_amount = round(Decimal("000.00"), 2)
     expenditure_remarks = request.data["expenditure_remarks"]
     expenditure_date = request.data["expenditure_date"]
     category_name = request.data["category_name"]
