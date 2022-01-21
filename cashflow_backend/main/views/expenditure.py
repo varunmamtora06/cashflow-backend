@@ -100,7 +100,7 @@ def add_expenditure(request):
     print("date_chunckafter")
     print(date_chunck)
     
-    if len(date_chunck[2]) == 2:
+    if len(date_chunck[2]) == 2 and len(date_chunck[0]) != 4:
         date_chunck[2] = "20"+date_chunck[2]
 
     expenditure_date = date_chunck[0] + "-"+ date_chunck[1] +"-"+ date_chunck[2]
